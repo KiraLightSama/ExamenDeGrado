@@ -16,7 +16,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email',
+        'password',
+        'nombre',
+        'genero',
+        'nacimiento',
+        'peso',
+        'estatura',
+        'energia_actual',
+        'energia_objetivo',
+        'cantidad_comidas',
+        'carbohidratos',
+        'grasa',
+        'proteina',
+        'objetivo_id',
+        'ejercicio_id'
     ];
 
     /**
@@ -36,4 +50,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public $timestamps = false;
 }

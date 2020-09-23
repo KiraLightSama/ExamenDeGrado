@@ -30,7 +30,7 @@ class CreateMenusUsersTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->integer('idAlimento',false, true);
+            $table->integer('alimento_id',false, true);
             $table->string('tipo');
             $table->boolean('marcado');
         });
