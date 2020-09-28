@@ -20,7 +20,7 @@ class User extends Authenticatable
         'password',
         'nombre',
         'genero',
-        'nacimiento',
+        'fecha_nacimiento',
         'peso',
         'estatura',
         'energia_actual',

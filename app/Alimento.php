@@ -23,6 +23,5 @@ class Alimento extends Model
         'categoria_id'
     ];
 
-
     public $timestamps = false;
 }
