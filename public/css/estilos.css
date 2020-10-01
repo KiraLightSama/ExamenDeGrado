@@ -45,7 +45,7 @@ input[type = password]:focus {
 .grasa-box,
 .lacteo-box,
 .fruta-box {
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     margin: 10px;
 }
 
@@ -121,15 +121,14 @@ input[type = password]:focus {
 .lacteo-box input[type = checkbox] + label, img,
 .fruta-box input[type = checkbox] + label, img {
     font-weight: bold;
-    color: white;
     cursor: pointer;
     font-size: 14px;
 }
 
 .cambio {
-    border: 1px solid #ffffff !important;
-    box-shadow: 0 0 3px #f0f4ff !important;
-    -moz-box-shadow: 0 0 3px #ffffff !important;
-    -webkit-box-shadow: 0 0 3px #ffffff !important;
+    border: 1px solid #787878 !important;
+    box-shadow: 0 0 3px #787878 !important;
+    -moz-box-shadow: 0 0 3px #787878 !important;
+    -webkit-box-shadow: 0 0 3px #787878 !important;
     transition: all 0.3s ease-in-out;
 }

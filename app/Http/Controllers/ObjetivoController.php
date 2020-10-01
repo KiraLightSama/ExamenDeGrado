@@ -68,7 +68,7 @@ class ObjetivoController extends Controller
 
         $user->update();
 
-        return redirect()->route('preferencia.create');
+        return redirect()->route('alimento.create');
 
     }
 
@@ -110,7 +110,7 @@ class ObjetivoController extends Controller
 
         $user->update();
 
-        return redirect()->route('preferencia.create');
+        return redirect()->route('alimento.create');
     }
 
     /**
@@ -152,7 +152,7 @@ class ObjetivoController extends Controller
 
         $user->update();
 
-        return redirect()->route('preferencia.create');
+        return redirect()->route('alimento.create');
     }
 
     private function edad($nacimiento)

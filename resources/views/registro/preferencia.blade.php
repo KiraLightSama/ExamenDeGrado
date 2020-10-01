@@ -1,1 +1,0 @@
-<h1>estas en preferencias</h1>

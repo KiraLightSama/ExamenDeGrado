@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PreferenciaController extends Controller
+class SeguimientoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class PreferenciaController extends Controller
      */
     public function create()
     {
-        return view('registro.preferencia');
+        return view('seguimiento.menu');
     }
 
     /**

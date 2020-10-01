@@ -27,5 +27,7 @@ Route::post('/objetivo/subir', 'ObjetivoController@subir')->name('objetivo.subir
 Route::post('/objetivo/bajar', 'ObjetivoController@bajar')->name('objetivo.bajar');
 Route::post('/objetivo/mantener', 'ObjetivoController@mantener')->name('objetivo.mantener');
 
-Route::get('/preferencia/create', 'PreferenciaController@create')->name('preferencia.create');
-Route::post('/preferencia/store', 'PreferenciaController@store')->name('preferencia.store');
+Route::get('/alimento/create', 'AlimentoController@create')->name('alimento.create');
+Route::post('/alimento/store', 'AlimentoController@store')->name('alimento.store');
+
+Route::get('/seguimiento', 'SeguimientoController@create')->name('seguimiento.create');
