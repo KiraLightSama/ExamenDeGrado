@@ -83,7 +83,7 @@ class AlimentoController extends Controller
             $user->update();
         }
 
-        return redirect()->route('seguimiento.create');
+        return redirect()->route('menu.index');
     }
 
     private function tieneListaPreferencias()

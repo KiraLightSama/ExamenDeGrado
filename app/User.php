@@ -52,4 +52,16 @@ class User extends Authenticatable
     ];
 
     public $timestamps = false;
+
+
+    public function menus()
+    {
+        return $this->belongsToMany('App\Menu','menus_users','user_id','menu_id')->withPivot('tipo','marcado','alimento_id');
+    }
+
+
+    public function alimentos()
+    {
+        return $this->belongsToMany('App\Alimento','alimentos_users','user_id','alimento_id');
+    }
 }

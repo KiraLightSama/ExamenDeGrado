@@ -23,7 +23,7 @@ class SeguimientoController extends Controller
      */
     public function create()
     {
-        return view('seguimiento.menu');
+        return view('menu.menu');
     }
 
     /**

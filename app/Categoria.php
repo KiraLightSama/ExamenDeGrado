@@ -10,9 +10,15 @@ class Categoria extends Model
 
     protected $fillable = [
         'id',
-        'nombre'
+        'nombre',
+        'distribucion'
     ];
 
 
     public $timestamps = false;
+
+    public function alimentos()
+    {
+        return $this->hasMany('App\Alimento');
+    }
 }

@@ -14,4 +14,12 @@ class Menu extends Model
     ];
 
     public $timestamps = false;
+
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User','menus_users','user_id','menu_id')->withPivot('tipo','marcado','alimento_id');
+    }
+
+
 }

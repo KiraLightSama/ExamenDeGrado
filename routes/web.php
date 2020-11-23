@@ -31,3 +31,7 @@ Route::get('/alimento/create', 'AlimentoController@create')->name('alimento.crea
 Route::post('/alimento/store', 'AlimentoController@store')->name('alimento.store');
 
 Route::get('/seguimiento', 'SeguimientoController@create')->name('seguimiento.create');
+
+Route::get('/menu', 'MenuController@index')->name('menu.index');
+Route::get('/menu/create', 'MenuController@create')->name('menu.create');
+Route::post('/menu/store', 'MenuController@store')->name('menu.store');
