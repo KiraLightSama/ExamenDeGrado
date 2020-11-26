@@ -12,4 +12,9 @@ class Seguimiento extends Model
         'id',
         'fecha',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User','seguimientos_users','user_id','seguimiento_id')->withPivot('peso_actual');
+    }
 }

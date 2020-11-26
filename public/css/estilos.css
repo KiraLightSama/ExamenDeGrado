@@ -30,40 +30,40 @@ input[type = password]:focus {
     -webkit-box-shadow: 0 0 3px #ffffff !important;
 }
 */
-.proteina-container,
-.carbohidrato-container,
-.grasa-container,
-.lacteo-container,
-.fruta-container {
+.Proteinas-container,
+.Carbohidratos-container,
+.Grasas-container,
+.Lacteos-container,
+.Frutas-container {
     margin: auto;
     display: table;
     clear: both;
 }
 
-.proteina-box,
-.carbohidrato-box,
-.grasa-box,
-.lacteo-box,
-.fruta-box {
+.Proteinas-box,
+.Carbohidratos-box,
+.Grasas-box,
+.Lacteos-box,
+.Frutas-box {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     margin: 10px;
 }
 
-.proteina-box img,
-.carbohidrato-box img,
-.grasa-box img,
-.lacteo-box img,
-.fruta-box img {
+.Proteinas-box img,
+.Carbohidratos-box img,
+.Grasas-box img,
+.Lacteos-box img,
+.Frutas-box img {
     display: block;
     width: 100%;
     padding: 5px;
 }
 
-.proteina-box:hover,
-.carbohidrato-box:hover,
-.grasa-box:hover,
-.lacteo-box:hover,
-.fruta-box:hover {
+.Proteinas-box:hover,
+.Carbohidratos-box:hover,
+.Grasas-box:hover,
+.Lacteos-box:hover,
+.Frutas-box:hover {
     font-size: 14px;
     padding: 5px;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
@@ -78,48 +78,48 @@ input[type = password]:focus {
 }
 
 @media screen and (min-width: 768px){
-    .proteina-container,
-    .carbohidrato-container,
-    .grasa-container,
-    .lacteo-container,
-    .fruta-container {
+    .Proteinas-container,
+    .Carbohidratos-container,
+    .Grasas-container,
+    .Lacteos-container,
+    .Frutas-container {
         width: 705px;
     }
 }
 
 @media screen and (min-width: 992px){
-    .proteina-container,
-    .carbohidrato-container,
-    .grasa-container,
-    .lacteo-container,
-    .fruta-container {
+    .Proteinas-container,
+    .Carbohidratos-container,
+    .Grasas-container,
+    .Lacteos-container,
+    .Frutas-container {
         width: 945px;
     }
 }
 
 @media screen and (min-width: 1200px){
-    .proteina-container,
-    .carbohidrato-container,
-    .grasa-container,
-    .lacteo-container,
-    .fruta-container {
+    .Proteinas-container,
+    .Carbohidratos-container,
+    .Grasas-container,
+    .Lacteos-container,
+    .Frutas-container {
         width: 1125px;
     }
 }
 
-.proteina-box input[type = checkbox],
-.carbohidrato-box input[type = checkbox],
-.grasa-box input[type = checkbox],
-.lacteo-box input[type = checkbox],
-.fruta-box input[type = checkbox] {
+.Proteinas-box input[type = checkbox],
+.Carbohidratos-box input[type = checkbox],
+.Grasas-box input[type = checkbox],
+.Lacteos-box input[type = checkbox],
+.Frutas-box input[type = checkbox] {
     display: none;
 }
 
-.proteina-box input[type = checkbox] + label, img,
-.carbohidrato-box input[type = checkbox] + label, img,
-.grasa-box input[type = checkbox] + label, img,
-.lacteo-box input[type = checkbox] + label, img,
-.fruta-box input[type = checkbox] + label, img {
+.Proteinas-box input[type = checkbox] + label, img,
+.Carbohidratos-box input[type = checkbox] + label, img,
+.Grasas-box input[type = checkbox] + label, img,
+.Lacteos-box input[type = checkbox] + label, img,
+.Frutas-box input[type = checkbox] + label, img {
     font-weight: bold;
     cursor: pointer;
     font-size: 14px;

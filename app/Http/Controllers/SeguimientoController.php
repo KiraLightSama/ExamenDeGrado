@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Seguimiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SeguimientoController extends Controller
 {
@@ -21,15 +23,27 @@ class SeguimientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('menu.menu');
+        $user = Auth::user();
+        $seguimiento = Seguimiento::firstOrCreate(['fecha' => date('Y-m-d')]);
+
+        $existe = $user->seguimientos()
+            ->where('seguimientos_users.seguimiento_id', '=', $seguimiento->id)
+            ->where('fecha', '=', date('Y-m-d'))
+            ->exists();
+
+        if (false == $existe) {
+            $user->seguimientos()->attach($seguimiento->id, ['peso_actual' => $request->peso]);
+        }
+
+        return redirect()->route('menu.index')->withSuccess('active');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -40,7 +54,7 @@ class SeguimientoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -51,7 +65,7 @@ class SeguimientoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -62,8 +76,8 @@ class SeguimientoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -74,7 +88,7 @@ class SeguimientoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

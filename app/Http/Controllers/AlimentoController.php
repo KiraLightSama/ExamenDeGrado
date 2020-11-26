@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\AlimentoUser;
+use App\Clasificacion;
 use Illuminate\Http\Request;
 use App\Alimento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Menu;
 
 class AlimentoController extends Controller
 {
@@ -27,15 +29,20 @@ class AlimentoController extends Controller
      */
     public function create()
     {
-        $alimentos = Alimento::join('clasificaciones', 'alimentos.clasificacion_id', 'clasificaciones.id')
-            ->select('alimentos.id',
-                'alimentos.nombre as nombre_alimento',
-                'alimentos.imagen',
-                'clasificaciones.nombre as nombre_clasi')
-            ->orderBy('nombre_alimento', 'ASC')
-            ->get();
+        /*  $alimentos = Alimento::join('clasificaciones', 'alimentos.clasificacion_id', 'clasificaciones.id')
+              ->select('alimentos.id',
+                  'alimentos.nombre as nombre_alimento',
+                  'alimentos.imagen',
+                  'clasificaciones.nombre as nombre_clasi')
+              ->orderBy('nombre_alimento', 'ASC')
+              ->get();
 
-        return view('registro.alimento', compact('alimentos'));
+        */
+        $alimentos = Alimento::all();
+        $clasificacion = Clasificacion::all();
+
+
+        return view('registro.alimento', compact('alimentos', 'clasificacion'));
     }
 
     /**
@@ -47,41 +54,13 @@ class AlimentoController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $user->alimentos()->sync(array_merge($request->Grasas, $request->Proteinas, $request->Carbohidratos, $request->Lacteos, $request->Frutas));
+        $user->cantidad_comidas = $request->cantidad;
+        $user->update();
+        DB::table('menus_users')->where('user_id', $user->id)->delete(); /*borra datos */
 
-        if (!$this->tieneListaPreferencias()) {
-            foreach ($request->proteinas as $proteina) {
-                DB::table('alimentos_users')->insert(
-                    ['user_id' => $user->id, 'alimento_id' => $proteina]
-                );
-            }
-
-            foreach ($request->carbohidratos as $carbohidrato) {
-                DB::table('alimentos_users')->insert(
-                    ['user_id' => $user->id, 'alimento_id' => $carbohidrato]
-                );
-            }
-
-            foreach ($request->grasas as $grasa) {
-                DB::table('alimentos_users')->insert(
-                    ['user_id' => $user->id, 'alimento_id' => $grasa]
-                );
-            }
-
-            foreach ($request->lacteos as $lacteo) {
-                DB::table('alimentos_users')->insert(
-                    ['user_id' => $user->id, 'alimento_id' => $lacteo]
-                );
-            }
-
-            foreach ($request->frutas as $fruta) {
-                DB::table('alimentos_users')->insert(
-                    ['user_id' => $user->id, 'alimento_id' => $fruta]
-                );
-            }
-
-            $user->cantidad_comidas = $request->cantidad;
-            $user->update();
-        }
+        //$user->menus()->detach(75);
+        //$user->menus()->detach(Menu::where('fecha', '=', date('Y-m-d'))->select('id')->first()->toArray());
 
         return redirect()->route('menu.index');
     }
@@ -112,9 +91,13 @@ class AlimentoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $alimentos = Alimento::all();
+        $clasificacion = Clasificacion::all();
+        $alimento_user = Auth::user()->alimentos()->select('alimentos.id as id')->get();
+
+        return view('registro.editAlimento', compact('alimentos', 'clasificacion', 'alimento_user'));
     }
 
     /**
@@ -124,9 +107,18 @@ class AlimentoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        $user->alimentos()->sync(array_merge($request->Grasas, $request->Proteinas, $request->Carbohidratos, $request->Lacteos, $request->Frutas));
+
+        DB::table('menus_users')->where('user_id', $user->id)->delete(); /*borra datos */
+
+        //$user->menus()->detach(75);
+        //$user->menus()->detach(Menu::where('fecha', '=', date('Y-m-d'))->select('id')->first()->toArray());
+
+        return redirect()->route('menu.index');
+
     }
 
     /**

@@ -64,4 +64,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Alimento','alimentos_users','user_id','alimento_id');
     }
+
+
+    public function seguimientos()
+    {
+        return $this->belongsToMany('App\Seguimiento','seguimientos_users','user_id','seguimiento_id')->withPivot('peso_actual');
+    }
 }

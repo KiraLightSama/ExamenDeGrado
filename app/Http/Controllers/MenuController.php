@@ -16,29 +16,7 @@ class MenuController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private function desayuno($array)
-    {
-        $new_array = $array_bebida = $array_leche = $array_panes = array();
-        foreach ($array as $key => $row) {
-            if ($row['categoria_nombre'] == 'Bebidas') {
-                array_push($array_bebida, [$row['id'], $row['calorias']]);
-            }
-            if ($row['categoria_nombre'] == 'Leches') {
-                array_push($array_leche, [$row['id'], $row['calorias']]);
-            }
-            if ($row['categoria_nombre'] == 'Panes y otros') {
-                array_push($array_panes, [$row['id'], $row['calorias']]);
-            }
-        }
-        array_push($new_array, array_random($array_leche));
-        array_push($new_array, array_random($array_panes));
-        if ((bool)rand(0, 1)) {
-            array_push($new_array, array_random($array_bebida));
-        }
-        return $new_array;
-    }
-
-    private function almuerzo($array)
+    private function almuerzo_cena($array)
     {
         $new_array = $array_carne = $array_tuberculo = $array_guarnicion = array();
         foreach ($array as $key => $row) {
@@ -58,89 +36,66 @@ class MenuController extends Controller
         if ((bool)rand(0, 1)) {
             array_push($new_array, array_random($array_guarnicion));
         } else {
-            $dos_random = array_random($array_guarnicion, 2);
-            array_push($new_array, ($dos_random[0]));
-            array_push($new_array, ($dos_random[1]));
+            if (count($array_guarnicion) >= 2) {
+                $dos_random = array_random($array_guarnicion, 2);
+                array_push($new_array, ($dos_random[0]));
+                array_push($new_array, ($dos_random[1]));
+            } else {
+                $dos_random = array_random($array_guarnicion, 1);
+                array_push($new_array, ($dos_random[0]));
+            }
         }
-
         return $new_array;
     }
 
-    private function cena($array)
+    function obetnerCantidadComida($cantidad)
     {
-        $new_array = $array_carne = $array_tuberculo = $array_guarnicion = array();
-        foreach ($array as $key => $row) {
-            if ($row['categoria_nombre'] == 'Carnes') {
-                array_push($array_carne, [$row['id'], $row['calorias']]);
-            }
-            if ($row['categoria_nombre'] == 'Guarnicion') {
-                array_push($array_guarnicion, [$row['id'], $row['calorias']]);
-
-            }
-            if ($row['categoria_nombre'] == 'Tuberculos') {
-                array_push($array_tuberculo, [$row['id'], $row['calorias']]);
-            }
+        $cantidadComida = array();
+        $cantidadComida = ['Desayuno', 'Media Mañana', 'Almuerzo', 'Media Tarde', 'Cena'];
+        if ($cantidad == 3) {
+            unset($cantidadComida[1], $cantidadComida[3]);
+            return $cantidadComida;
+            return $cantidadComida;
         }
-        array_push($new_array, array_random($array_carne));
-        array_push($new_array, array_random($array_tuberculo));
-        if ((bool)rand(0, 1)) {
-            array_push($new_array, array_random($array_guarnicion));
-        } else {
-            $dos_random = array_random($array_guarnicion, 2);
-            array_push($new_array, ($dos_random[0]));
-            array_push($new_array, ($dos_random[1]));
+        if ($cantidad == 4) {
+            unset($cantidadComida[3]);
+            return $cantidadComida;
+        }
+        if ($cantidad == 5) {
+            return $cantidadComida;
         }
 
-        return $new_array;
     }
 
     public function index()
     {
         $user = Auth::user();
+        $tipo_alimento = $this->obetnerCantidadComida($user->cantidad_comidas);
+        $seguimientos = $user->seguimientos()->get();
 
         if ($user->menus->count() > 0 && $user->menus()->orderByDesc('id')->first()->fecha == date('Y-m-d')) {
-            $menu_dia=$user->menus()->join('alimentos','alimento_id', 'alimentos.id')
-                ->select('alimentos.nombre','alimentos.cantidad','alimentos.medida','menus_users.marcado','menus_users.tipo')->get();
-            $tipo_alimento;
-            return view('menu.menu',compact('menu_dia'));
+            $menu_dia = $user->menus()
+                ->join('alimentos', 'alimento_id', 'alimentos.id')
+                ->select('alimentos.id', 'alimentos.nombre', 'alimentos.imagen', 'alimentos.cantidad', 'alimentos.medida', 'menus_users.marcado', 'menus_users.tipo', 'alimentos.informacion', 'alimentos.carbohidratos', 'alimentos.proteinas', 'alimentos.grasas')
+                ->where('fecha', date('Y-m-d'))
+                ->get();
+
+            return view('menu.menu', compact('menu_dia', 'tipo_alimento', 'seguimientos'));
 
         } else {
             $menu = Menu::firstOrCreate(['fecha' => date('Y-m-d')]);
 
             /////////////////// DESAYUNO //////////////////////////
             $caloriaDesayuno = 0;
-            while ($caloriaDesayuno < 4) {
-                if ($caloriaDesayuno == 0) {
-                    $alimento_asencial = $user->alimentos()
-                        ->select('alimentos.*', 'categorias.nombre as categoria_nombre')
-                        ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
-                        ->where('distribucion', 'like', '%D%')
-                        ->whereIn('categorias.nombre', ['Bebidas', 'Leches', 'Panes y otros'])
-                        ->get()->toArray();
+            while ($caloriaDesayuno < rand(3, 4)) {
+                $alimento_asencial = $user->alimentos()
+                    ->select('alimentos.*')
+                    ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
+                    ->where('distribucion', 'like', '%D%')
+                    ->get()->random();
 
-                    $desayuno_random = $this->desayuno($alimento_asencial);
-
-                    foreach ($desayuno_random as $row) {
-                        $user->menus()->attach($menu->id, ['alimento_id' => $row[0], 'tipo' => 'Desayuno', 'marcado' => 0]);
-                        $caloriaDesayuno++;
-                    }
-                } else {
-                    $alimentoRandon = $user->alimentos()
-                        ->select('alimentos.*', 'categorias.nombre as categoria_nombre')
-                        ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
-                        ->where('categorias.nombre', '=', 'Frutas')
-                        ->get()->random();
-
-                    $existe = $user->menus()
-                        ->where('menus_users.alimento_id', '=', $alimentoRandon->id)
-                        ->where('fecha', '=', date('Y-m-d'))
-                        ->exists();
-
-                    if (false == $existe) {
-                        $user->menus()->attach($menu->id, ['alimento_id' => $alimentoRandon->id, 'tipo' => 'Desayuno', 'marcado' => 0]);
-                        $caloriaDesayuno++;
-                    }
-                }
+                $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Desayuno', 'marcado' => 0]);
+                $caloriaDesayuno++;
             }
             /////////////////// FIN DESAYUNO //////////////////////////
 
@@ -153,25 +108,19 @@ class MenuController extends Controller
                         ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
                         ->where('distribucion', 'like', '%A%')
                         ->whereIn('categorias.nombre', ['Carnes', 'Tuberculos', 'Guarnicion'])
-                        ->get()->toArray();
+                        ->get()
+                        ->toArray();
 
-                    $almuerzo_random = $this->almuerzo($alimento_asencial);
+                    $almuerzo_random = $this->almuerzo_cena($alimento_asencial);
 
                     foreach ($almuerzo_random as $row) {
                         $user->menus()->attach($menu->id, ['alimento_id' => $row[0], 'tipo' => 'Almuerzo', 'marcado' => 0]);
                         $caloriaAlmuerzo++;
                     }
                 } else {
-                    $alimentoRandon = $user->alimentos()
-                        ->select('alimentos.*')
-                        ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
-                        ->where('categorias.nombre', '=', 'Frutas')
-                        ->get()->random();
+                    $alimentoRandon = $this->alimentoRandom($user);
 
-                    $existe = $user->menus()
-                        ->where('menus_users.alimento_id', '=', $alimentoRandon->id)
-                        ->where('fecha', '=', date('Y-m-d'))
-                        ->exists();
+                    $existe = $this->existe($user, $alimentoRandon);
 
                     if (false == $existe) {
                         $user->menus()->attach($menu->id, ['alimento_id' => $alimentoRandon->id, 'tipo' => 'Almuerzo', 'marcado' => 0]);
@@ -199,27 +148,19 @@ class MenuController extends Controller
                         ->whereNotIn('alimento_id', $a)
                         ->get()->toArray();
 
-                    $almuerzo_random = $this->cena($alimento_asencial);
+                    $cena_random = $this->almuerzo_cena($alimento_asencial);
 
-                    foreach ($almuerzo_random as $row) {
+                    foreach ($cena_random as $row) {
                         $user->menus()->attach($menu->id, ['alimento_id' => $row[0], 'tipo' => 'Cena', 'marcado' => 0]);
                         $caloriaCena++;
                     }
                 } else {
-                    $cenaRandon = $user->alimentos()
-                        ->select('alimentos.*')
-                        ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
-                        ->where('categorias.nombre', '=', 'Frutas')
-                        ->get()
-                        ->random();
+                    $alimentoRandon = $this->alimentoRandom($user);
 
-                    $existe = $user->menus()
-                        ->where('menus_users.alimento_id', '=', $cenaRandon->id)
-                        ->where('fecha', '=', date('Y-m-d'))
-                        ->exists();
+                    $existe = $this->existe($user, $alimentoRandon);
 
                     if (false == $existe) {
-                        $user->menus()->attach($menu->id, ['alimento_id' => $cenaRandon->id, 'tipo' => 'Cena', 'marcado' => 0]);
+                        $user->menus()->attach($menu->id, ['alimento_id' => $alimentoRandon->id, 'tipo' => 'Cena', 'marcado' => 0]);
                         $caloriaCena++;
                     }
                 }
@@ -237,13 +178,9 @@ class MenuController extends Controller
                             ->get()
                             ->random();
 
-                        $existe = $user->menus()
-                            ->where('menus_users.alimento_id', '=', $alimento_asencial->id)
-                            ->where('fecha', '=', date('Y-m-d'))
-                            ->exists();
-
-                        if (false == $existe){
-                            $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Media_M', 'marcado' => 0]);
+                        $existe = $this->existe($user, $alimento_asencial);
+                        if (false == $existe) {
+                            $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Media Mañana', 'marcado' => 0]);
                             $caloriaMM++;
                         }
                     }
@@ -259,13 +196,10 @@ class MenuController extends Controller
                             ->get()
                             ->random();
 
-                        $existe = $user->menus()
-                            ->where('menus_users.alimento_id', '=', $alimento_asencial->id)
-                            ->where('fecha', '=', date('Y-m-d'))
-                            ->exists();
+                        $existe = $this->existe($user, $alimento_asencial);
 
-                        if (false == $existe){
-                            $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Media_M', 'marcado' => 0]);
+                        if (false == $existe) {
+                            $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Media Mañana', 'marcado' => 0]);
                             $caloriaMM++;
                         }
                     }
@@ -279,13 +213,10 @@ class MenuController extends Controller
                             ->get()
                             ->random();
 
-                        $existe = $user->menus()
-                            ->where('menus_users.alimento_id', '=', $alimento_asencial->id)
-                            ->where('fecha', '=', date('Y-m-d'))
-                            ->exists();
+                        $existe = $this->existe($user, $alimento_asencial);
 
-                        if (false == $existe){
-                            $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Media_T', 'marcado' => 0]);
+                        if (false == $existe) {
+                            $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Media Tarde', 'marcado' => 0]);
                             $caloriaMT++;
                         }
                     }
@@ -293,72 +224,41 @@ class MenuController extends Controller
                 }
             }
         }
-        return view('menu.menu');
+        $menu_dia = $user->menus()
+            ->join('alimentos', 'alimento_id', 'alimentos.id')
+            ->select('alimentos.id', 'alimentos.nombre', 'alimentos.imagen', 'alimentos.cantidad', 'alimentos.medida', 'menus_users.marcado', 'menus_users.tipo', 'alimentos.informacion', 'alimentos.carbohidratos', 'alimentos.proteinas', 'alimentos.grasas')
+            ->where('fecha', date('Y-m-d'))
+            ->get();
+
+        return view('menu.menu', compact('menu_dia', 'tipo_alimento', 'seguimientos'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param $user
+     * @param $alimentoRandon
+     * @return mixed
      */
-    public function create()
+    private function existe($user, $alimentoRandon)
     {
-
+        $existe = $user->menus()
+            ->where('menus_users.alimento_id', '=', $alimentoRandon->id)
+            ->where('fecha', '=', date('Y-m-d'))
+            ->exists();
+        return $existe;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param $user
+     * @return mixed
      */
-    public function store(Request $request)
+    private function alimentoRandom($user)
     {
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $alimentoRandon = $user->alimentos()
+            ->select('alimentos.*')
+            ->join('categorias', 'categorias.id', 'alimentos.categoria_id')
+            ->where('categorias.nombre', '=', 'Frutas')
+            ->get()
+            ->random();
+        return $alimentoRandon;
     }
 }

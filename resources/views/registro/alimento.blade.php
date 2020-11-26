@@ -4,14 +4,42 @@
     <div class="container py-4">
         <form action="{{ route('alimento.store') }}" method="POST" aria-label="alimentos" onsubmit="return validar()">
             @csrf
+
+
+            {{--inicio javi---}}
+
+                @foreach($clasificacion as $clasi)
+                <div class="{{$clasi->nombre}}-container">
+                <div class="title">
+                        <p class="text-center   h3 p-2"><u>{{$clasi->nombre}}</u></p>
+                    </div>
+
+                    @foreach($alimentos as $alimento)
+                        @if($clasi->id == $alimento->clasificacion_id)
+                            <div class="{{$clasi->nombre}}-box bg-transparent">
+                                <input class="food" type="checkbox" id="{{$alimento->id}}" name="{{$clasi->nombre}}[]"
+                                       value="{{$alimento->id}}">
+                                <label class="text-center" for="{{$alimento->id}}">
+                                    <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
+                                    {{$alimento->nombre}}
+                                </label>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            @endforeach
+            <hr>
+            {{--fin javi---}}
+            {{---inicio sama--}}
+            {{--
             <div class="title">
-                <p class="text-center   h3 p-2"><u>Proteinas</u></p>
+                <p class="text-center   h3 p-2"><u>Proteinass</u></p>
             </div>
-            <div class="proteina-container">
+            <div class="Proteinas-container">
                 @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Proteinas')
-                        <div class="proteina-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="proteinas[]"
+                    @if($alimento->nombre_clasi == 'Proteinass')
+                        <div class="Proteinas-box bg-transparent">
+                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Proteinass[]"
                                    value="{{$alimento->id}}">
                             <label class="text-center" for="{{$alimento->id}}">
                                 <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
@@ -22,13 +50,13 @@
                 @endforeach
             </div>
             <div class="title">
-                <p class="text-center   h3 p-2"><u>Carbohidratos</u></p>
+                <p class="text-center   h3 p-2"><u>Carbohidratoss</u></p>
             </div>
-            <div class="carbohidrato-container">
+            <div class="Carbohidratos-container">
                 @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Carbohidratos')
-                        <div class="carbohidrato-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="carbohidratos[]"
+                    @if($alimento->nombre_clasi == 'Carbohidratoss')
+                        <div class="Carbohidratos-box bg-transparent">
+                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Carbohidratoss[]"
                                    value="{{$alimento->id}}">
                             <label class="text-center" for="{{$alimento->id}}">
                                 <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
@@ -41,10 +69,10 @@
             <div class="title">
                 <p class="text-center   h3 p-2"><u>Grasas</u></p>
             </div>
-            <div class="grasa-container">
+            <div class="Grasas-container">
                 @foreach($alimentos as $alimento)
                     @if($alimento->nombre_clasi == 'Grasas')
-                        <div class="grasa-box bg-transparent">
+                        <div class="Grasas-box bg-transparent">
                             <input class="food" type="checkbox" id="{{$alimento->id}}" name="grasas[]"
                                    value="{{$alimento->id}}">
                             <label class="text-center" for="{{$alimento->id}}">
@@ -56,13 +84,13 @@
                 @endforeach
             </div>
             <div class="title">
-                <p class="text-center   h3 p-2"><u>Lacteos y otros</u></p>
+                <p class="text-center   h3 p-2"><u>Lacteoss y otros</u></p>
             </div>
-            <div class="lacteo-container">
+            <div class="Lacteos-container">
                 @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Lacteos y otros')
-                        <div class="lacteo-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="lacteos[]"
+                    @if($alimento->nombre_clasi == 'Lacteoss y otros')
+                        <div class="Lacteos-box bg-transparent">
+                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Lacteoss[]"
                                    value="{{$alimento->id}}">
                             <label class="text-center" for="{{$alimento->id}}">
                                 <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
@@ -79,7 +107,7 @@
                 @foreach($alimentos as $alimento)
                     @if($alimento->nombre_clasi == 'Frutas')
                         <div class="fruta-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="frutas[]"
+                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Frutas[]"
                                    value="{{$alimento->id}}">
                             <label class="text-center" for="{{$alimento->id}}">
                                 <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
@@ -89,6 +117,7 @@
                     @endif
                 @endforeach
             </div>
+            --}}
             <div class="d-block d-sm-none p-3">
                 <button type="button" class="btn btn-outline-primary btn-block btn-flat" data-toggle="modal"
                         data-target="#modal-cantidad-alimento">Guardar
@@ -136,33 +165,33 @@
 @section('scripts')
     <script>
 
-        var proteina = new Waterfall({
-            containerSelector: '.proteina-container',
-            boxSelector: '.proteina-box',
+        var Proteinas = new Waterfall({
+            containerSelector: '.Proteinas-container',
+            boxSelector: '.Proteinas-box',
             minBoxWidth: 110
         });
 
-        var carbohidrato = new Waterfall({
-            containerSelector: '.carbohidrato-container',
-            boxSelector: '.carbohidrato-box',
+        var Carbohidratos = new Waterfall({
+            containerSelector: '.Carbohidratos-container',
+            boxSelector: '.Carbohidratos-box',
             minBoxWidth: 110
         });
 
         var grasa = new Waterfall({
-            containerSelector: '.grasa-container',
-            boxSelector: '.grasa-box',
+            containerSelector: '.Grasas-container',
+            boxSelector: '.Grasas-box',
             minBoxWidth: 110
         });
 
-        var lacteo = new Waterfall({
-            containerSelector: '.lacteo-container',
-            boxSelector: '.lacteo-box',
+        var Lacteos = new Waterfall({
+            containerSelector: '.Lacteos-container',
+            boxSelector: '.Lacteos-box',
             minBoxWidth: 110
         });
 
-        var fruta = new Waterfall({
-            containerSelector: '.fruta-container',
-            boxSelector: '.fruta-box',
+        var Frutas = new Waterfall({
+            containerSelector: '.Frutas-container',
+            boxSelector: '.Frutas-box',
             minBoxWidth: 110
         });
 
@@ -194,23 +223,23 @@
 
         var tipos = [
             {
-                nombre: 'frutas',
-                requerido: 3
+                nombre: 'Frutas',
+                requerido: 6
             },
             {
-                nombre: 'lacteos',
+                nombre: 'Lacteos',
                 requerido: 2
             },
             {
-                nombre: 'grasas',
+                nombre: 'Grasas',
                 requerido: 3
             },
             {
-                nombre: 'carbohidratos',
+                nombre: 'Carbohidratos',
                 requerido: 8
             },
             {
-                nombre: 'proteinas',
+                nombre: 'Proteinas',
                 requerido: 4
             }
         ];

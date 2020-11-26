@@ -29,9 +29,9 @@ Route::post('/objetivo/mantener', 'ObjetivoController@mantener')->name('objetivo
 
 Route::get('/alimento/create', 'AlimentoController@create')->name('alimento.create');
 Route::post('/alimento/store', 'AlimentoController@store')->name('alimento.store');
-
-Route::get('/seguimiento', 'SeguimientoController@create')->name('seguimiento.create');
+Route::get('/alimento/edit', 'AlimentoController@edit')->name('alimento.edit');
+Route::post('/alimento/update', 'AlimentoController@update')->name('alimento.update');
 
 Route::get('/menu', 'MenuController@index')->name('menu.index');
-Route::get('/menu/create', 'MenuController@create')->name('menu.create');
-Route::post('/menu/store', 'MenuController@store')->name('menu.store');
+
+Route::post('/seguimiento/create', 'SeguimientoController@create')->name('seguimiento.create');
