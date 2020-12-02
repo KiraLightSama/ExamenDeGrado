@@ -18,7 +18,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade @if(!Session::has('success')) active show @endif" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <table class="table table-striped table-hover table-responsive-sm">
+                <table class="table table-striped table-hover table-responsive-sm table-light">
                     <thead>
                     <tr>
                         <th >ALIMENTO</th>
@@ -158,7 +158,6 @@
             config.data.datasets.splice(0, 2);
             cargarDatos();
             window.myLine.update();
-
         };
     </script>
 @endsection

@@ -4,16 +4,11 @@
     <div class="container py-4">
         <form action="{{ route('alimento.store') }}" method="POST" aria-label="alimentos" onsubmit="return validar()">
             @csrf
-
-
-            {{--inicio javi---}}
-
                 @foreach($clasificacion as $clasi)
                 <div class="{{$clasi->nombre}}-container">
                 <div class="title">
-                        <p class="text-center   h3 p-2"><u>{{$clasi->nombre}}</u></p>
-                    </div>
-
+                        <p class="text-center h3 p-2"><u>{{$clasi->nombre}}</u></p>
+                </div>
                     @foreach($alimentos as $alimento)
                         @if($clasi->id == $alimento->clasificacion_id)
                             <div class="{{$clasi->nombre}}-box bg-transparent">
@@ -28,96 +23,6 @@
                     @endforeach
                 </div>
             @endforeach
-            <hr>
-            {{--fin javi---}}
-            {{---inicio sama--}}
-            {{--
-            <div class="title">
-                <p class="text-center   h3 p-2"><u>Proteinass</u></p>
-            </div>
-            <div class="Proteinas-container">
-                @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Proteinass')
-                        <div class="Proteinas-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Proteinass[]"
-                                   value="{{$alimento->id}}">
-                            <label class="text-center" for="{{$alimento->id}}">
-                                <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
-                                {{$alimento->nombre_alimento}}
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            <div class="title">
-                <p class="text-center   h3 p-2"><u>Carbohidratoss</u></p>
-            </div>
-            <div class="Carbohidratos-container">
-                @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Carbohidratoss')
-                        <div class="Carbohidratos-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Carbohidratoss[]"
-                                   value="{{$alimento->id}}">
-                            <label class="text-center" for="{{$alimento->id}}">
-                                <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
-                                {{$alimento->nombre_alimento}}
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            <div class="title">
-                <p class="text-center   h3 p-2"><u>Grasas</u></p>
-            </div>
-            <div class="Grasas-container">
-                @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Grasas')
-                        <div class="Grasas-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="grasas[]"
-                                   value="{{$alimento->id}}">
-                            <label class="text-center" for="{{$alimento->id}}">
-                                <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
-                                {{$alimento->nombre_alimento}}
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            <div class="title">
-                <p class="text-center   h3 p-2"><u>Lacteoss y otros</u></p>
-            </div>
-            <div class="Lacteos-container">
-                @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Lacteoss y otros')
-                        <div class="Lacteos-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Lacteoss[]"
-                                   value="{{$alimento->id}}">
-                            <label class="text-center" for="{{$alimento->id}}">
-                                <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
-                                {{$alimento->nombre_alimento}}
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            <div class="title">
-                <p class="text-center   h3 p-2"><u>Frutas</u></p>
-            </div>
-            <div class="fruta-container">
-                @foreach($alimentos as $alimento)
-                    @if($alimento->nombre_clasi == 'Frutas')
-                        <div class="fruta-box bg-transparent">
-                            <input class="food" type="checkbox" id="{{$alimento->id}}" name="Frutas[]"
-                                   value="{{$alimento->id}}">
-                            <label class="text-center" for="{{$alimento->id}}">
-                                <img src="{{asset('foods/'.$alimento->imagen)}}" alt="" width="100%">
-                                {{$alimento->nombre_alimento}}
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            --}}
             <div class="d-block d-sm-none p-3">
                 <button type="button" class="btn btn-outline-primary btn-block btn-flat" data-toggle="modal"
                         data-target="#modal-cantidad-alimento">Guardar

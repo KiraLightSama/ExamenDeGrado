@@ -94,8 +94,12 @@ class MenuController extends Controller
                     ->where('distribucion', 'like', '%D%')
                     ->get()->random();
 
-                $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Desayuno', 'marcado' => 0]);
-                $caloriaDesayuno++;
+                $existe = $this->existe($user, $alimento_asencial);
+
+                if (false == $existe) {
+                    $user->menus()->attach($menu->id, ['alimento_id' => $alimento_asencial->id, 'tipo' => 'Desayuno', 'marcado' => 0]);
+                    $caloriaDesayuno++;
+                }
             }
             /////////////////// FIN DESAYUNO //////////////////////////
 

@@ -14,37 +14,48 @@ class CategoriasTableSeeder extends Seeder
     {
         $data = array(
             [
-                'nombre' => 'Carnes'
+                'nombre' => 'Carnes',
+                'distribucion' => 'A,C'
             ],
             [
-                'nombre' => 'Bebidas'
+                'nombre' => 'Bebidas',
+                'distribucion' => 'D'
             ],
             [
-                'nombre' => 'Frutas'
+                'nombre' => 'Frutas',
+                'distribucion' => 'D,A,C,MM,MT'
             ],
             [
-                'nombre' => 'Frutos Secos'
+                'nombre' => 'Frutos Secos',
+                'distribucion' => 'MM,MT'
             ],
             [
-                'nombre' => 'Leches'
+                'nombre' => 'Leches',
+                'distribucion' => 'D'
             ],
             [
-                'nombre' => 'Tuberculos'
+                'nombre' => 'Tuberculos',
+                'distribucion' => 'A,C'
             ],
             [
-                'nombre' => 'Ensaladas'
+                'nombre' => 'Ensaladas',
+                'distribucion' => 'A,C'
             ],
             [
-                'nombre' => 'Guarnicion'
+                'nombre' => 'Guarnicion',
+                'distribucion' => 'A,C'
             ],
             [
-                'nombre' => 'Panes y otros'
+                'nombre' => 'Panes y otros',
+                'distribucion' => 'D'
             ],
             [
-                'nombre' => 'Semillas'
+                'nombre' => 'Semillas',
+                'distribucion' => 'MM,MT'
             ],
             [
-                'nombre' => 'Chocolates y Dulces'
+                'nombre' => 'Chocolates y Dulces',
+                'distribucion' => 'MM,MT'
             ]
         );
 

@@ -33,9 +33,9 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light bg-gradient-light shadow-sm elevation-2">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ url('/menu') }}">
                 <img src="{{asset('img/nutrismart.png')}}" alt="logo" width="150">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -71,6 +71,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a href="{{ route('user.index') }}" class="dropdown-item">Perfil</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -89,7 +90,7 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main class="py-5">
         @yield('content')
     </main>
 </div>
