@@ -23,7 +23,7 @@ class ClasificacionesTableSeeder extends Seeder
                 'nombre' => 'Grasas'
             ],
             [
-                'nombre' => 'Lacteos y otros'
+                'nombre' => 'Lacteos'
             ],
             [
                 'nombre' => 'Frutas'

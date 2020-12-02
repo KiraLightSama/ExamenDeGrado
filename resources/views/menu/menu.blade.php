@@ -45,7 +45,7 @@
                                     <td>{{ $menu->cantidad }} - {{ $menu->medida }}</td>
                                     <td class="text-center">
                                         @if(!$menu->marcado)
-                                            <form action="#" method="post">
+                                            <form action="{{ route('seguimiento.marcar') }}" method="post">
                                                 @csrf
                                                 <input type="hidden" value="{{ $menu->id }}" name="alimento_id">
                                                 <button class="btn btn-outline-success btn-sm" type="submit">

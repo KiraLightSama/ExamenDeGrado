@@ -13,34 +13,14 @@ use App\Menu;
 class AlimentoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        /*  $alimentos = Alimento::join('clasificaciones', 'alimentos.clasificacion_id', 'clasificaciones.id')
-              ->select('alimentos.id',
-                  'alimentos.nombre as nombre_alimento',
-                  'alimentos.imagen',
-                  'clasificaciones.nombre as nombre_clasi')
-              ->orderBy('nombre_alimento', 'ASC')
-              ->get();
-
-        */
         $alimentos = Alimento::all();
         $clasificacion = Clasificacion::all();
-
 
         return view('registro.alimento', compact('alimentos', 'clasificacion'));
     }
@@ -118,17 +98,5 @@ class AlimentoController extends Controller
         //$user->menus()->detach(Menu::where('fecha', '=', date('Y-m-d'))->select('id')->first()->toArray());
 
         return redirect()->route('menu.index');
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

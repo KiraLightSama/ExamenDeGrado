@@ -37,5 +37,6 @@ Route::post('/alimento/update', 'AlimentoController@update')->name('alimento.upd
 Route::get('/menu', 'MenuController@index')->name('menu.index')->middleware('auth');
 
 Route::post('/seguimiento/create', 'SeguimientoController@create')->name('seguimiento.create')->middleware('auth');
+Route::post('/marcar', 'SeguimientoController@marcar')->name('seguimiento.marcar')->middleware('auth');
 
 Route::get('/perfil', 'UserController@index')->name('user.index')->middleware('auth');

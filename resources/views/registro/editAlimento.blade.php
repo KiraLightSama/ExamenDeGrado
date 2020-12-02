@@ -62,7 +62,7 @@
             minBoxWidth: 110
         });
 
-        var grasa = new Waterfall({
+        var Grasas = new Waterfall({
             containerSelector: '.Grasas-container',
             boxSelector: '.Grasas-box',
             minBoxWidth: 110
